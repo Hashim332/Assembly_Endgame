@@ -1,3 +1,13 @@
-export default function LanguageChip() {
-  return <p className="language-chip">JavaScript</p>;
+export default function LanguageChip({ name, backgroundColour, colour }) {
+  const styles = {
+    backgroundColor: backgroundColour,
+    color: colour,
+  };
+
+  console.log(styles);
+  return (
+    <p style={styles} className="language-chip">
+      {name}
+    </p>
+  );
 }
