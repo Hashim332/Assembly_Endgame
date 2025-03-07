@@ -4,7 +4,6 @@ export default function LanguageChip({ name, backgroundColour, colour }) {
     color: colour,
   };
 
-  console.log(styles);
   return (
     <p style={styles} className="language-chip">
       {name}
