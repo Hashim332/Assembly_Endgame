@@ -1,6 +1,6 @@
-import React from "react";
 import GameStatus from "./components/GameStatus";
-
+import { languages } from "./languages";
+import LanguageChip from "./components/LanguageChip";
 /**
  * Goal: Build out the main parts of our app
  *
@@ -12,6 +12,8 @@ import GameStatus from "./components/GameStatus";
  * Hint for layout: use a flex container that can wrap
  * to layout the languages.
  */
+
+console.log(languages);
 
 export default function AssemblyEndgame() {
   return (
@@ -25,6 +27,8 @@ export default function AssemblyEndgame() {
       </header>
 
       <GameStatus />
+
+      <LanguageChip />
     </main>
   );
 }
