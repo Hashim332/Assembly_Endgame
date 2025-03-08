@@ -2,9 +2,10 @@ import LanguageChip from "./LanguageChip";
 import { languages } from "../languages";
 
 export default function ChipGroup() {
-  const languageChips = languages.map((chip) => {
+  const languageChips = languages.map((chip, index) => {
     return (
       <LanguageChip
+        key={index}
         name={chip.name}
         colour={chip.color}
         backgroundColour={chip.backgroundColor}

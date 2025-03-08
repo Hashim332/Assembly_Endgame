@@ -27,6 +27,7 @@ header > p {
   font-size: 0.875rem;
   max-width: 350px;
   color: #8e8e8e;
+  margin: auto;
 }
 
 section.game-status {
@@ -87,4 +88,39 @@ section.game-status > h2 {
   font-weight: bold;
   font-size: 18px;
   border-bottom: 2px solid white;
+}
+
+.alphabet-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.alphabet-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: #f4b41a; /* Golden yellow color */
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  padding: 0;
+}
+
+.alphabet-buttons:hover {
+  background-color: #e3a318; /* Slightly darker on hover */
+}
+
+.alphabet-buttons:active {
+  background-color: #d29315; /* Even darker when pressed */
+  transform: scale(0.95);
 }
