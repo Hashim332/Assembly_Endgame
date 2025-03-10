@@ -1,13 +1,17 @@
 import GameStatus from "./components/GameStatus";
 import ChipGroup from "./components/ChipGroup";
 import { useState } from "react";
+import clsx from "clsx";
 
 /**
- * Goal: Build out the main parts of our app
+ * Goal: Allow the user to start guessing the letters
  *
- * Challenge:
- * Display the keyboard ⌨️. Use <button>s for each letter
- * since it'll need to be clickable and tab-accessible.
+ * Challenge: Update the keyboard when a letter is right
+ * or wrong.
+ *
+ * Bonus: use the `clsx` package to easily add conditional
+ * classNames to the keys of the keyboard. Check the docs
+ * to learn how to use it 📖
  */
 
 export default function AssemblyEndgame() {
@@ -23,9 +27,16 @@ export default function AssemblyEndgame() {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const alphabetArray = alphabet.split("");
 
+  const buttonColour = clsx(
+    currentWord.includes(userGuess[-1]) ? "green" : "red"
+  );
+  let styles = {};
+
   const alphabetButtons = alphabetArray.map((alphabet) => {
     return (
       <button
+        style={styles}
+        key={alphabet}
         className="alphabet-buttons"
         onClick={() => handleGuess(alphabet)}
       >
@@ -35,8 +46,9 @@ export default function AssemblyEndgame() {
   });
 
   function handleGuess(letter) {
-    console.log(letter);
-    setUserGuess((prevGuesses) => prevGuesses.push(letter));
+    setUserGuess((prevGuesses) =>
+      prevGuesses.includes(letter) ? prevGuesses : [...prevGuesses, letter]
+    );
   }
 
   console.log(userGuess);
