@@ -27,17 +27,16 @@ export default function AssemblyEndgame() {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const alphabetArray = alphabet.split("");
 
-  const buttonColour = clsx(
-    currentWord.includes(userGuess[-1]) ? "green" : "red"
-  );
-  let styles = {};
-
   const alphabetButtons = alphabetArray.map((alphabet) => {
+    const isGuessCorrect = currentWord.includes(alphabet);
+    const isLetterGuessed = userGuess.includes(alphabet);
     return (
       <button
-        style={styles}
         key={alphabet}
-        className="alphabet-buttons"
+        className={clsx("alphabet-buttons", {
+          "correct-guess": isGuessCorrect && isLetterGuessed,
+          "incorrect-guess": !isGuessCorrect && isLetterGuessed,
+        })}
         onClick={() => handleGuess(alphabet)}
       >
         {alphabet}
@@ -46,12 +45,14 @@ export default function AssemblyEndgame() {
   });
 
   function handleGuess(letter) {
-    setUserGuess((prevGuesses) =>
-      prevGuesses.includes(letter) ? prevGuesses : [...prevGuesses, letter]
-    );
+    if (userGuess.includes(letter)) {
+      return;
+    }
+    setUserGuess([...userGuess, letter]);
+    // setUserGuess((prevGuesses) =>
+    //   prevGuesses.includes(letter) ? prevGuesses : [...prevGuesses, letter]
+    // );
   }
-
-  console.log(userGuess);
 
   return (
     <main>

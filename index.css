@@ -117,10 +117,18 @@ section.game-status > h2 {
 }
 
 .alphabet-buttons:hover {
-  background-color: #e3a318; /* Slightly darker on hover */
+  opacity: 70%; /* Slightly darker on hover */
 }
 
 .alphabet-buttons:active {
-  background-color: #d29315; /* Even darker when pressed */
+  opacity: 50%;
   transform: scale(0.95);
+}
+
+.correct-guess {
+  background-color: #10a95b;
+}
+
+.incorrect-guess {
+  background-color: #ec5d49;
 }
