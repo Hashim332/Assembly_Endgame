@@ -4,27 +4,39 @@ import { useState } from "react";
 import clsx from "clsx";
 
 /**
- * Goal: Allow the user to start guessing the letters
+ * Goal: Add in the incorrect guesses mechanism to the game
  *
- * Challenge: Update the keyboard when a letter is right
- * or wrong.
+ * Challenge: Derive a variable (`wrongGuessCount`) for the
+ * number of incorrect guesses by using the other state
+ * values we're already holding in the component.
  *
- * Bonus: use the `clsx` package to easily add conditional
- * classNames to the keys of the keyboard. Check the docs
- * to learn how to use it 📖
+ * console.log the wrongGuessCount for now
  */
 
 export default function AssemblyEndgame() {
+  // State values
   const [currentWord, setCurrentWord] = useState("react");
   const currentWordArray = currentWord.split("");
 
   const [userGuess, setUserGuess] = useState([]);
 
+  // Derived values
+  const wrongGuessCount = userGuess
+    .filter((letter) => !currentWordArray.includes(letter))
+    .length();
+  console.log(wrongGuessCount);
+
+  // Static values
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
   const word = currentWordArray.map((letter) => {
-    return <span className="letter">{letter.toUpperCase()}</span>;
+    return (
+      <span className="letter">
+        {userGuess.includes(letter) ? letter.toUpperCase() : ""}
+      </span>
+    );
   });
 
-  const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const alphabetArray = alphabet.split("");
 
   const alphabetButtons = alphabetArray.map((alphabet) => {
@@ -49,6 +61,7 @@ export default function AssemblyEndgame() {
       return;
     }
     setUserGuess([...userGuess, letter]);
+    // alernate logic, but causes unnecessary renders
     // setUserGuess((prevGuesses) =>
     //   prevGuesses.includes(letter) ? prevGuesses : [...prevGuesses, letter]
     // );
