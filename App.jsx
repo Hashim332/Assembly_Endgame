@@ -6,11 +6,12 @@ import clsx from "clsx";
 /**
  * Goal: Add in the incorrect guesses mechanism to the game
  *
- * Challenge: Derive a variable (`wrongGuessCount`) for the
- * number of incorrect guesses by using the other state
- * values we're already holding in the component.
+ * Challenge: When mapping over the languages, determine how
+ * many of them have been "lost" and add the "lost" class if
+ * so.
  *
- * console.log the wrongGuessCount for now
+ * Hint: use the wrongGuessCount combined with the index of
+ * the item in the array while inside the languages.map code
  */
 
 export default function AssemblyEndgame() {
@@ -21,9 +22,10 @@ export default function AssemblyEndgame() {
   const [userGuess, setUserGuess] = useState([]);
 
   // Derived values
-  const wrongGuessCount = userGuess
-    .filter((letter) => !currentWordArray.includes(letter))
-    .length();
+  const wrongGuessCount = userGuess.filter(
+    (letter) => !currentWordArray.includes(letter)
+  ).length;
+
   console.log(wrongGuessCount);
 
   // Static values
@@ -79,7 +81,7 @@ export default function AssemblyEndgame() {
 
       <GameStatus />
 
-      <ChipGroup />
+      <ChipGroup wrongGuessCount={wrongGuessCount} />
 
       <div className="word-container">{word}</div>
 
