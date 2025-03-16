@@ -2,16 +2,19 @@ import GameStatus from "./components/GameStatus";
 import ChipGroup from "./components/ChipGroup";
 import { useState } from "react";
 import clsx from "clsx";
-
+import { languages } from "./languages";
+import { isEqual } from "lodash";
+import NewGameButton from "./components/NewGameButton";
 /**
  * Goal: Add in the incorrect guesses mechanism to the game
  *
- * Challenge: When mapping over the languages, determine how
- * many of them have been "lost" and add the "lost" class if
- * so.
- *
- * Hint: use the wrongGuessCount combined with the index of
- * the item in the array while inside the languages.map code
+ * Challenge:
+ * 1. Create a variable `isGameOver` which evaluates to `true`
+ *    if the user has guessed incorrectly 8 times. Consider how
+ *    we might make this more dynamic if we were ever to add or
+ *    remove languages from the languages array.
+ * 2. Conditionally render the New Game button only if the game
+ *    is over.
  */
 
 export default function AssemblyEndgame() {
@@ -25,8 +28,12 @@ export default function AssemblyEndgame() {
   const wrongGuessCount = userGuess.filter(
     (letter) => !currentWordArray.includes(letter)
   ).length;
+  const isGameLost = wrongGuessCount === languages.length - 1;
 
-  console.log(wrongGuessCount);
+  const sortedCurrentWord = [...currentWordArray].sort();
+  const isGameWon = isEqual(sortedCurrentWord, [...userGuess].sort()); // using lodash helper function to do deep comparision
+
+  const isGameOver = isGameLost || isGameWon;
 
   // Static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -79,13 +86,15 @@ export default function AssemblyEndgame() {
         </p>
       </header>
 
-      <GameStatus />
+      <GameStatus isGameLost={isGameLost} isGameWon={isGameWon} />
 
       <ChipGroup wrongGuessCount={wrongGuessCount} />
 
       <div className="word-container">{word}</div>
 
       <div className="alphabet-container">{alphabetButtons}</div>
+
+      {isGameOver && <NewGameButton />}
     </main>
   );
 }
