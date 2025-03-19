@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { languages } from "./languages";
 import { isEqual } from "lodash";
 import NewGameButton from "./components/NewGameButton";
+import { getFarewellText } from "./utils";
 /**
  * Goal: Add in the incorrect guesses mechanism to the game
  *
@@ -21,6 +22,7 @@ export default function AssemblyEndgame() {
   // State values
   const [currentWord, setCurrentWord] = useState("react");
   const currentWordArray = currentWord.split("");
+  const sortedCurrentWord = [...currentWordArray].sort();
 
   const [userGuess, setUserGuess] = useState([]);
 
@@ -28,9 +30,23 @@ export default function AssemblyEndgame() {
   const wrongGuessCount = userGuess.filter(
     (letter) => !currentWordArray.includes(letter)
   ).length;
-  const isGameLost = wrongGuessCount === languages.length - 1;
 
-  const sortedCurrentWord = [...currentWordArray].sort();
+  const isTheGuessCorrect = currentWord.includes(userGuess.at(-1));
+  console.log(
+    `The letter guessed was ${userGuess.at(-1)} which is ${isTheGuessCorrect}`
+  );
+
+  const languageNames = languages.map((item) => {
+    return item.name;
+  });
+
+  if (!isTheGuessCorrect) {
+    const farewellText = getFarewellText(languageNames[0]);
+    languageNames.shift();
+    return farewellText;
+  }
+
+  const isGameLost = wrongGuessCount === languages.length - 1;
   const isGameWon = isEqual(sortedCurrentWord, [...userGuess].sort()); // using lodash helper function to do deep comparision
 
   const isGameOver = isGameLost || isGameWon;
@@ -86,7 +102,12 @@ export default function AssemblyEndgame() {
         </p>
       </header>
 
-      <GameStatus isGameLost={isGameLost} isGameWon={isGameWon} />
+      <GameStatus
+        isGameLost={isGameLost}
+        isGameWon={isGameWon}
+        isGameOver={isGameOver}
+        wrongGuessCount={wrongGuessCount}
+      />
 
       <ChipGroup wrongGuessCount={wrongGuessCount} />
 
