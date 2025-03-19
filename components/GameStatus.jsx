@@ -7,6 +7,7 @@ export default function GameStatus({
   isGameWon,
   isGameOver,
   wrongGuessCount,
+  isLastGuessIncorrect,
 }) {
   /**
    * Challenge: Bid farewell to each programming language
@@ -19,19 +20,12 @@ export default function GameStatus({
    * to solve the challenge without the hint! 🕵️
    */
 
-  let statusMessage = "";
-  for (const [index, language] of languages.entries()) {
-    if (wrongGuessCount && index === wrongGuessCount) {
-      statusMessage = getFarewellText(language.name);
-    }
-  }
-
-  console.log(wrongGuessCount, statusMessage);
-
   return (
     <div className="status-container">
-      {!isGameOver && (
-        <section className="game-status">{statusMessage}</section>
+      {!isGameOver && isLastGuessIncorrect && (
+        <section className="game-status status-message">
+          {getFarewellText(languages[wrongGuessCount - 1].name)}
+        </section>
       )}
       {isGameWon && (
         <section className="game-status game-won">
