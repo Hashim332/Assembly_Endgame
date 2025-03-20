@@ -5,11 +5,11 @@ import clsx from "clsx";
 import { languages } from "./languages";
 import { isEqual, last } from "lodash";
 import NewGameButton from "./components/NewGameButton";
-import { getFarewellText } from "./utils";
+import { getWord } from "./utils";
 
 export default function AssemblyEndgame() {
   // State values
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState(getWord());
   const currentWordArray = currentWord.split("");
   const sortedCurrentWord = [...currentWordArray].sort();
 
@@ -24,12 +24,17 @@ export default function AssemblyEndgame() {
   const isLastGuessIncorrect =
     lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
 
-  console.log(isLastGuessIncorrect);
-
   const isGameLost = wrongGuessCount === languages.length - 1;
-  const isGameWon = isEqual(sortedCurrentWord, [...userGuess].sort()); // using lodash helper function to do deep comparision
+  const isSubset = (smallArr, largeArr) => {
+    const largeSet = new Set(largeArr);
+    return smallArr.every((char) => largeSet.has(char));
+  };
 
-  const isGameOver = isGameLost || isGameWon;
+  const isGameWon =
+    isEqual(sortedCurrentWord, [...userGuess].sort()) ||
+    isSubset(sortedCurrentWord, userGuess);
+
+  const isGameOver = isGameWon || isGameLost;
 
   // Static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -49,6 +54,7 @@ export default function AssemblyEndgame() {
     const isLetterGuessed = userGuess.includes(alphabet);
     return (
       <button
+        disabled={isGameOver}
         key={alphabet}
         className={clsx("alphabet-buttons", {
           "correct-guess": isGuessCorrect && isLetterGuessed,
