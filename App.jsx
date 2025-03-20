@@ -3,13 +3,13 @@ import ChipGroup from "./components/ChipGroup";
 import { useState } from "react";
 import clsx from "clsx";
 import { languages } from "./languages";
-import { isEqual, last } from "lodash";
+import { isEqual } from "lodash";
 import NewGameButton from "./components/NewGameButton";
 import { getWord } from "./utils";
 
 export default function AssemblyEndgame() {
   // State values
-  const [currentWord, setCurrentWord] = useState(getWord());
+  const [currentWord, setCurrentWord] = useState(() => getWord());
   const currentWordArray = currentWord.split("");
   const sortedCurrentWord = [...currentWordArray].sort();
 
@@ -39,9 +39,9 @@ export default function AssemblyEndgame() {
   // Static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-  const word = currentWordArray.map((letter) => {
+  const word = currentWordArray.map((letter, index) => {
     return (
-      <span className="letter">
+      <span className="letter" key={index}>
         {userGuess.includes(letter) ? letter.toUpperCase() : ""}
       </span>
     );
@@ -79,6 +79,13 @@ export default function AssemblyEndgame() {
     // );
   }
 
+  function startNewGame() {
+    setCurrentWord(getWord());
+    setUserGuess([]);
+  }
+
+  console.log(`Current word: ${currentWord}, userGuess: ${userGuess}`);
+
   return (
     <main>
       <header>
@@ -103,7 +110,7 @@ export default function AssemblyEndgame() {
 
       <div className="alphabet-container">{alphabetButtons}</div>
 
-      {isGameOver && <NewGameButton />}
+      {isGameOver && <NewGameButton startNewGame={startNewGame} />}
     </main>
   );
 }
