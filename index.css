@@ -21,21 +21,13 @@ body {
   margin: 0;
   font-family: var(--game-font);
   background-color: var(--neutral-900);
-  background-image: radial-gradient(
-      circle at 10% 20%,
-      rgba(59, 130, 246, 0.1) 0%,
-      transparent 20%
-    ),
-    radial-gradient(
-      circle at 80% 60%,
-      rgba(16, 169, 91, 0.1) 0%,
-      transparent 30%
-    );
+  background-image: none; /* Removed gradient for performance */
   color: var(--neutral-100);
-  padding: 12px;
+  padding: 10px;
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  overscroll-behavior: contain; /* Prevents bounce effects */
 }
 
 main {
@@ -47,11 +39,11 @@ main {
 
 header {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 header > h1 {
-  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  font-size: 2rem;
   font-weight: 700;
   color: var(--neutral-50);
   margin-bottom: 0.5rem;
@@ -61,21 +53,27 @@ header > h1 {
   background-clip: text;
 }
 
+@media (max-width: 480px) {
+  header > h1 {
+    font-size: 1.75rem;
+  }
+}
+
 header > p {
-  font-size: clamp(0.875rem, 3vw, 1rem);
+  font-size: 0.9rem;
   max-width: 450px;
   color: var(--neutral-100);
   margin: 0 auto;
   opacity: 0.8;
-  padding: 0 10px;
+  padding: 0 8px;
 }
 
 /* Game status */
 .status-container {
   display: flex;
   justify-content: center;
-  margin: 1rem 0;
-  min-height: 80px;
+  margin: 0.75rem 0;
+  height: 80px; /* Fixed height for consistency */
 }
 
 section.game-status {
@@ -85,19 +83,19 @@ section.game-status {
   justify-content: center;
   color: white;
   border-radius: 12px;
-  padding: 1rem;
+  padding: 0.75rem;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: none; /* Removed for performance */
 }
 
 .status-message {
   background-color: #6a4c93;
   color: white;
   text-align: center;
-  padding: 1rem;
-  font-size: clamp(1rem, 4vw, 1.25rem);
+  padding: 0.75rem;
+  font-size: 1.1rem;
   font-weight: bold;
   font-style: italic;
   position: relative;
@@ -107,14 +105,16 @@ section.game-status {
   justify-content: center;
   align-items: center;
   height: 80px;
-  animation: fadeIn 0.5s ease;
   width: 90%;
+  will-change: transform, opacity; /* Optimizes for animation */
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Simplified animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
   to {
     opacity: 1;
@@ -124,17 +124,6 @@ section.game-status {
 
 .game-won {
   background-color: var(--success);
-  animation: bounce 0.5s ease;
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
 }
 
 .game-lost {
@@ -143,11 +132,11 @@ section.game-status {
 
 section.game-status > p {
   margin: 6px 0;
-  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-size: 1rem;
 }
 
 section.game-status > h2 {
-  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-size: 1.3rem;
   margin: 0 0 6px 0;
 }
 
@@ -155,11 +144,11 @@ section.game-status > h2 {
 .chips-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
   max-width: 100%;
-  padding: 0 10px;
-  margin: 0 auto 1rem;
+  padding: 0 5px;
+  margin: 0 auto 0.75rem;
 }
 
 .language-chip {
@@ -169,18 +158,13 @@ section.game-status > h2 {
   font-weight: 600;
   font-size: 0.75rem;
   border-radius: 999px;
-  padding: 6px 12px;
+  padding: 6px 10px;
   color: white;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  position: relative;
 }
 
-.language-chip:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* Dimmed overlay with X on "lost" languages */
+/* Simplified overlay for "lost" languages */
 .language-chip.lost::before {
   content: "X";
   position: absolute;
@@ -205,25 +189,34 @@ section.game-status > h2 {
   display: flex;
   justify-content: center;
   gap: 6px;
-  margin: 1rem 0;
+  margin: 0.75rem 0;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 0 10px;
+  padding: 0 5px;
 }
 
 .letter {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: clamp(25px, 8vw, 50px);
-  height: clamp(35px, 10vw, 60px);
+  width: 40px; /* Fixed width */
+  height: 50px; /* Fixed height */
   background-color: transparent;
   color: white;
   font-weight: 700;
-  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-size: 1.25rem;
   border-bottom: 3px solid var(--neutral-100);
   text-transform: uppercase;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
+}
+
+/* Smaller sizes for very small screens */
+@media (max-width: 360px) {
+  .letter {
+    width: 30px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
 }
 
 /* Alphabet keyboard */
@@ -231,45 +224,44 @@ section.game-status > h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   max-width: 100%;
-  margin: 1rem auto;
-  padding: 0 5px;
+  margin: 0.75rem auto;
+  padding: 0 4px;
 }
 
 .alphabet-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: clamp(28px, 8vw, 45px);
-  height: clamp(35px, 10vw, 55px);
+  width: 38px; /* Fixed width */
+  height: 46px; /* Fixed height */
   background-color: var(--neutral-700);
   color: white;
   font-weight: 600;
-  font-size: clamp(0.8rem, 3vw, 1rem);
+  font-size: 0.9rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   text-transform: uppercase;
   padding: 0;
-  transition: all 0.15s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   margin: 2px;
+  transform: translateZ(0); /* Hardware acceleration */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
 }
 
-.alphabet-buttons:not(:disabled):hover {
-  transform: translateY(-2px);
-  background-color: var(--primary);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* Smaller sizes for very small screens */
+@media (max-width: 360px) {
+  .alphabet-buttons {
+    width: 32px;
+    height: 40px;
+    font-size: 0.85rem;
+  }
 }
 
 .alphabet-buttons:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-}
-
-.alphabet-buttons:active {
-  transform: scale(0.95);
 }
 
 .correct-guess {
@@ -286,80 +278,63 @@ section.game-status > h2 {
   color: white;
   border: none;
   border-radius: 12px;
-  padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px);
-  font-size: clamp(1rem, 3vw, 1.1rem);
+  padding: 14px 20px;
+  font-size: 1rem;
   font-weight: 600;
   width: 90%;
   max-width: 300px;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: block;
-  margin: 1rem auto;
-}
-
-.new-game:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  margin: 0.75rem auto;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+  transform: translateZ(0); /* Hardware acceleration */
 }
 
 .new-game:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Touch-friendly adjustments */
-@media (hover: none) {
-  .alphabet-buttons:not(:disabled):hover {
-    transform: none;
-    background-color: var(--neutral-700);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+/* Touch-optimized styles */
+@media (pointer: coarse) {
+  .alphabet-buttons,
+  .language-chip,
+  .new-game {
+    touch-action: manipulation; /* Improves touch response */
   }
 
-  .language-chip:hover {
-    transform: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  /* Increase tap target sizes */
+  .alphabet-buttons {
+    min-height: 44px;
   }
 
-  .new-game:hover {
-    background-color: var(--primary);
-    transform: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  .new-game {
+    min-height: 48px;
   }
 }
 
-/* Orientation specific adjustments */
-@media (orientation: landscape) and (max-height: 500px) {
+/* Fix viewport issues on mobile */
+@media screen and (max-height: 600px) {
   body {
-    padding: 8px;
+    padding: 5px;
   }
 
   header {
     margin-bottom: 0.5rem;
   }
 
+  header > h1 {
+    font-size: 1.5rem;
+  }
+
   .status-container {
     margin: 0.5rem 0;
-    min-height: 60px;
+    height: 70px;
   }
 
   .status-message {
-    height: 60px;
+    height: 70px;
     padding: 0.5rem;
-  }
-
-  .word-container {
-    margin: 0.5rem 0;
-  }
-
-  .alphabet-container {
-    margin: 0.5rem auto;
-  }
-
-  .new-game {
-    margin: 0.5rem auto;
-    padding: 10px 16px;
   }
 }
