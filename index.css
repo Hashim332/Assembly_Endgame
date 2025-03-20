@@ -2,109 +2,182 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --success: #10a95b;
+  --danger: #ba2a2a;
+  --warning: #f4b41a;
+  --neutral-900: #1f2937;
+  --neutral-800: #262626;
+  --neutral-700: #374151;
+  --neutral-100: #f3f4f6;
+  --neutral-50: #f9fafb;
+  --game-font: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: "Hanken Grotesk", Arial, sans-serif;
-  background-color: #262626;
-  color: #d9d9d9;
+  font-family: var(--game-font);
+  background-color: var(--neutral-900);
+  background-image: radial-gradient(
+      circle at 10% 20%,
+      rgba(59, 130, 246, 0.1) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(16, 169, 91, 0.1) 0%,
+      transparent 30%
+    );
+  color: var(--neutral-100);
   padding: 20px;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+}
+
+main {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 header > h1 {
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #f9f4da;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--neutral-50);
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #3b82f6, #10a95b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 header > p {
-  font-size: 0.875rem;
-  max-width: 350px;
-  color: #8e8e8e;
-  margin: auto;
+  font-size: 1rem;
+  max-width: 450px;
+  color: var(--neutral-100);
+  margin: 0 auto;
+  opacity: 0.8;
 }
 
-/* Updated CSS for the game status */
+/* Game status */
 .status-container {
   display: flex;
   justify-content: center;
-  margin-block: 20px;
-  min-height: 80px; /* Optional to ensure consistent height */
+  margin: 1.5rem 0;
+  min-height: 100px;
 }
 
 section.game-status {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #f9f4da;
-  border-radius: 4px;
-  padding: 10px 10px;
+  justify-content: center;
+  color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-/* Updated CSS for status-message with wavy edges and vertically centered text */
 .status-message {
-  background-color: #6a4c93; /* Purple background */
-  color: white; /* White text */
+  background-color: #6a4c93;
+  color: white;
   text-align: center;
-  padding: 20px;
+  padding: 1.5rem;
   font-size: 1.25rem;
   font-weight: bold;
-  font-style: italic; /* Matches the italic text style in the image */
+  font-style: italic;
   position: relative;
   overflow: hidden;
-  border-radius: 6px; /* Optional for slightly rounded corners */
-  display: flex; /* Enable flexbox */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 80px; /* Adjust as needed to match your desired height */
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .game-won {
-  background-color: #10a95b;
+  background-color: var(--success);
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .game-lost {
-  background-color: #ba2a2a;
+  background-color: var(--danger);
 }
 
 section.game-status > p {
-  margin: 5px;
-}
-section.game-status > h2 {
-  font-size: 1.25rem;
-  margin: 5px;
+  margin: 8px 0;
+  font-size: 1.1rem;
 }
 
+section.game-status > h2 {
+  font-size: 1.5rem;
+  margin: 0 0 8px 0;
+}
+
+/* Language chips */
 .chips-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 3px; /* More consistent spacing between chips */
+  gap: 8px;
   justify-content: center;
-  max-width: 300px; /* Adjust based on your layout needs */
-  margin: auto;
+  max-width: 400px;
+  margin: 0 auto 1.5rem;
 }
 
 .language-chip {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 700;
-  font-size: 10px; /* Keeping your preferred text size */
-  border-radius: 6px; /* More rounded corners */
-  padding: 5px 10px; /* Balanced padding */
-  color: white; /* High contrast text - you can override this with inline styles if needed */
-  /* No individual color classes since you're handling colors separately */
+  font-weight: 600;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  padding: 6px 12px;
+  color: white;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-/* Dimmed overlay with skull on "lost" languages */
+.language-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Dimmed overlay with X on "lost" languages */
 .language-chip.lost::before {
   content: "X";
   position: absolute;
@@ -118,97 +191,145 @@ section.game-status > h2 {
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
-  color: red;
+  color: var(--danger);
   z-index: 1;
   pointer-events: none;
+  border-radius: 999px;
 }
 
+/* Word container */
 .word-container {
   display: flex;
   justify-content: center;
-  gap: 4px; /* Spacing between letter boxes */
-  margin: 20px 0;
-  flex-direction: row; /* Ensure the letters are placed horizontally */
+  gap: 10px;
+  margin: 1.5rem 0;
+  flex-direction: row;
 }
 
 .letter {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: #222;
+  width: 50px;
+  height: 60px;
+  background-color: transparent;
   color: white;
-  font-weight: bold;
-  font-size: 18px;
-  border-bottom: 2px solid white;
+  font-weight: 700;
+  font-size: 1.5rem;
+  border-bottom: 3px solid var(--neutral-100);
+  text-transform: uppercase;
 }
 
+/* Alphabet keyboard */
 .alphabet-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
-  max-width: 550px;
-  margin: 0 auto;
+  max-width: 600px;
+  margin: 1.5rem auto;
 }
 
 .alphabet-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: #f4b41a; /* Golden yellow color */
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
+  width: 45px;
+  height: 55px;
+  background-color: var(--neutral-700);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   text-transform: uppercase;
   padding: 0;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.alphabet-buttons:hover {
-  opacity: 70%; /* Slightly darker on hover */
+.alphabet-buttons:not(:disabled):hover {
+  transform: translateY(-2px);
+  background-color: var(--primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.alphabet-buttons:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .alphabet-buttons:active {
-  opacity: 50%;
   transform: scale(0.95);
 }
 
 .correct-guess {
-  background-color: #10a95b;
+  background-color: var(--success);
 }
 
 .incorrect-guess {
-  background-color: #ec5d49;
+  background-color: var(--danger);
 }
 
+/* New game button */
 .new-game {
-  background-color: #1daeeb;
-  color: #222222;
-  border: 1px solid white;
-  border-radius: 4px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 500;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
   width: 100%;
-  max-width: 250px;
+  max-width: 300px;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
   display: block;
-  margin: 20px auto;
+  margin: 1.5rem auto;
 }
 
 .new-game:hover {
-  background-color: #18a0db;
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .new-game:active {
-  background-color: #1694c9;
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .letter {
+    width: 40px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .alphabet-buttons {
+    width: 40px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  header > h1 {
+    font-size: 1.75rem;
+  }
+
+  .letter {
+    width: 35px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+
+  .alphabet-buttons {
+    width: 32px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
 }

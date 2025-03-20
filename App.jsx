@@ -6,6 +6,8 @@ import { languages } from "./languages";
 import { isEqual } from "lodash";
 import NewGameButton from "./components/NewGameButton";
 import { getWord } from "./utils";
+import ReactConfetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 export default function AssemblyEndgame() {
   // State values
@@ -40,6 +42,13 @@ export default function AssemblyEndgame() {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
   const word = currentWordArray.map((letter, index) => {
+    if (isGameLost) {
+      return (
+        <span className="letter" key={index}>
+          {letter.toUpperCase()}
+        </span>
+      );
+    }
     return (
       <span className="letter" key={index}>
         {userGuess.includes(letter) ? letter.toUpperCase() : ""}
@@ -86,6 +95,8 @@ export default function AssemblyEndgame() {
 
   console.log(`Current word: ${currentWord}, userGuess: ${userGuess}`);
 
+  const { width, height } = useWindowSize();
+
   return (
     <main>
       <header>
@@ -96,6 +107,7 @@ export default function AssemblyEndgame() {
         </p>
       </header>
 
+      {isGameWon && <ReactConfetti width={width} height={height} />}
       <GameStatus
         isGameLost={isGameLost}
         isGameWon={isGameWon}
