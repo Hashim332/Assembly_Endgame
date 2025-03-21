@@ -59,11 +59,15 @@ header > h1 {
   }
 }
 
+header {
+  display: flex;
+  flex-direction: column;
+}
 header > p {
   font-size: 0.9rem;
   max-width: 450px;
   color: var(--neutral-100);
-  margin: 0 auto;
+  margin: 10px auto;
   opacity: 0.8;
   padding: 0 8px;
 }
@@ -337,4 +341,10 @@ section.game-status > h2 {
     height: 70px;
     padding: 0.5rem;
   }
+}
+
+.sub-text {
+  font-size: 0.75rem;
+  color: white;
+  text-align: center;
 }

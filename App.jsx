@@ -122,6 +122,10 @@ export default function AssemblyEndgame() {
 
       <div className="alphabet-container">{alphabetButtons}</div>
 
+      <p className="sub-text">
+        This game is like hangman but words are not only programming related
+      </p>
+
       {isGameOver && <NewGameButton startNewGame={startNewGame} />}
     </main>
   );
